@@ -1,0 +1,65 @@
+---
+import Photo from "../components/Photo.astro";
+import Script from "../components/Script.astro";
+import solutionPhoto from "../assets/photos/solution.jpg";
+
+const steps = [
+  {
+    title: "Познакомились — добавь человека",
+    text: "Имя, откуда вы знакомы, телефон и почта.",
+  },
+  {
+    title: "Поговорили — допиши заметку",
+    text: "О чём говорили и о чём договорились. У каждой заметки есть дата, свежие — сверху.",
+  },
+  {
+    title: "Скоро встреча — найди и вспомни",
+    text: "Достаточно ввести часть имени, и перед тобой вся история общения.",
+  },
+];
+---
+
+<section class="border-t border-dashed border-divider">
+  <div class="mx-auto flex max-w-mobile flex-col gap-6 py-12 lg:max-w-page lg:gap-16 lg:px-16 lg:py-26 xl:px-30">
+    <div class="contents lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center lg:gap-20">
+      <div class="flex flex-col gap-3.5 px-6 lg:gap-4.5 lg:px-0">
+        <p class="font-script text-kicker text-accent lg:text-kicker-lg">решение</p>
+        <h2 class="-mt-1.5 text-h2 text-balance lg:-mt-1 lg:text-h2-lg">
+          Одно место для всех, кого ты знаешь <Script class="text-h2-script lg:text-h2-script-lg">лично</Script>
+        </h2>
+        <p class="text-lead text-muted lg:text-body-lg">
+          Записная книжка о людях, которые тебе дороги. Три простых шага:
+        </p>
+      </div>
+
+      <Photo
+        src={solutionPhoto}
+        alt="Крупно: рукопожатие в деловых костюмах"
+        sizes="(min-width: 1024px) 620px, min(calc(100vw - 28px), 532px)"
+        class="mx-3.5 h-60 lg:mx-0 lg:h-95"
+      />
+    </div>
+
+    <ol class="flex flex-col gap-5.5 px-6 lg:grid lg:grid-cols-3 lg:gap-12 lg:px-0">
+      {
+        steps.map((step, index) => (
+          <li class="grid grid-cols-[44px_1fr] items-start gap-3 lg:flex lg:flex-col lg:gap-2.5">
+            <span class="font-script text-step-num text-accent lg:text-step-num-lg" aria-hidden="true">
+              {index + 1}
+            </span>
+            <div class="flex flex-col gap-1 lg:contents">
+              <h3 class="text-step-title lg:text-step-title-lg">{step.title}</h3>
+              <p class="text-desc text-muted lg:text-desc-lg">{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p
+      class="mx-6 mt-1 rounded-photo border-[1.5px] border-dashed border-frame px-4 py-3.5 text-plate text-ink-2 lg:mx-0 lg:mt-0 lg:self-start lg:px-5.5 lg:py-4 lg:text-plate-lg"
+    >
+      Открывается в браузере на компьютере и на телефоне — контакты везде одни и те же.
+    </p>
+  </div>
+</section>

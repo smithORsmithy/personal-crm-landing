@@ -1,0 +1,17 @@
+---
+// A handwritten word inside a heading. Size comes from the `class` prop.
+interface Props {
+  tone?: "light" | "dark";
+  class?: string;
+}
+
+const { tone = "light", class: className } = Astro.props;
+---
+
+<span
+  class:list={[
+    "font-script font-normal tracking-normal",
+    tone === "light" ? "text-accent" : "text-accent-light",
+    className,
+  ]}><slot /></span
+>

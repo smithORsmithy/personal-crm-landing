@@ -1,0 +1,27 @@
+---
+import CtaButton from "../components/CtaButton.astro";
+import Photo from "../components/Photo.astro";
+import Script from "../components/Script.astro";
+import ctaPhoto from "../assets/photos/cta.jpg";
+---
+
+<section
+  class="mx-auto flex max-w-mobile flex-col lg:grid lg:max-w-page lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-20 lg:px-16 lg:pt-26 lg:pb-18 xl:px-30"
+>
+  <Photo
+    src={ctaPhoto}
+    alt="Крупно: в одной руке записная книжка, в другой телефон"
+    sizes="(min-width: 1024px) 580px, min(calc(100vw - 28px), 532px)"
+    class="mx-3.5 mt-3.5 h-65 lg:m-0 lg:h-120"
+  />
+
+  <div class="flex flex-col gap-4 px-6 pt-7.5 lg:gap-5.5 lg:p-0">
+    <h2 class="text-h2-final text-balance lg:text-h2-final-lg">
+      Каждое знакомство достойно <Script class="text-h2-final-script lg:text-h2-final-script-lg">продолжения</Script>
+    </h2>
+    <p class="text-lead text-pretty text-muted lg:max-w-115 lg:text-body-lg">
+      Начни с одного человека — того, кого точно не хочется потерять.
+    </p>
+    <CtaButton class="mt-3.5" />
+  </div>
+</section>

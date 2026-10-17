@@ -1,0 +1,25 @@
+---
+import { APP_URL } from "../config";
+
+interface Props {
+  variant?: "primary" | "outline";
+  class?: string;
+}
+
+const { variant = "primary", class: className } = Astro.props;
+---
+
+<a
+  href={APP_URL}
+  class:list={[
+    "flex items-center justify-center rounded-full whitespace-nowrap transition duration-150",
+    "focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent active:translate-y-px",
+    variant === "primary" &&
+      "h-14.5 w-full bg-ink text-button text-paper hover:bg-ink-hover lg:h-16 lg:w-auto lg:self-start lg:px-11 lg:text-button-lg",
+    // content-box like the mockup: the border is added outside the 44px height
+    variant === "outline" && "box-content h-11 border-[1.5px] border-ink px-5.5 text-button-sm hover:opacity-85",
+    className,
+  ]}
+>
+  Открыть мою CRM
+</a>

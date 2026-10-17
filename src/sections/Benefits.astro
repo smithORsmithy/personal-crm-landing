@@ -1,0 +1,52 @@
+---
+import Script from "../components/Script.astro";
+
+const benefits = [
+  {
+    title: "Знакомься смело",
+    text: "Расширяй круг сколько хочешь: каждый новый человек останется с тобой, а не потеряется среди сотен номеров.",
+  },
+  {
+    title: "Люди чувствуют, что о них помнят",
+    text: "Ты спрашиваешь, как прошёл переезд, и возвращаешься к тому, о чём договорились. Из таких мелочей и растёт доверие.",
+  },
+  {
+    title: "Каждый разговор продолжает прошлый",
+    text: "Не нужно начинать с «напомни, где мы виделись» — сразу спрашиваешь: «Как твоя последняя поездка?»",
+  },
+  {
+    title: "Помни о главном",
+    text: "Имена и договорённости записаны, а внимание остаётся на собеседнике.",
+  },
+];
+---
+
+<section class="bg-ink text-paper">
+  <div
+    class="mx-auto flex max-w-mobile flex-col gap-5.5 px-6 pt-12 pb-13 lg:grid lg:max-w-page lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:items-start lg:gap-20 lg:px-16 lg:py-26 xl:px-30"
+  >
+    <h2 class="text-h2 lg:text-h2-lg">
+      Что <Script tone="dark" class="text-benefits-script lg:text-benefits-script-lg">изменится</Script>
+    </h2>
+
+    <ul class="flex flex-col gap-5.5 lg:grid lg:grid-cols-2 lg:gap-x-14 lg:gap-y-12">
+      {
+        benefits.map((benefit) => (
+          <li class="grid grid-cols-[24px_1fr] gap-3.5 lg:grid-cols-[28px_1fr] lg:gap-4">
+            {/* content-box like the mockup: the border is added outside the 18px (20px) box */}
+            <span
+              class="mt-0.75 box-content flex size-4.5 items-center justify-center border-[1.5px] border-accent-light font-script text-mark text-accent-light lg:mt-1 lg:size-5 lg:text-mark-lg"
+              aria-hidden="true"
+            >
+              ×
+            </span>
+            <div>
+              <h3 class="text-benefit-title lg:text-benefit-title-lg">{benefit.title}</h3>
+              <p class="mt-1.25 text-desc text-muted-dark lg:mt-2 lg:text-desc-lg">{benefit.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

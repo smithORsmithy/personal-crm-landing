@@ -1,0 +1,32 @@
+---
+import CtaButton from "../components/CtaButton.astro";
+import Photo from "../components/Photo.astro";
+import Script from "../components/Script.astro";
+import heroPhoto from "../assets/photos/hero.jpg";
+---
+
+<section
+  class="mx-auto flex min-h-svh max-w-mobile flex-col lg:grid lg:min-h-0 lg:max-w-page lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-center lg:gap-18 lg:px-16 lg:pt-10 lg:pb-28 xl:px-30"
+>
+  <div class="flex flex-1 flex-col px-6 pt-6.5 pb-9 lg:gap-7 lg:p-0">
+    <h1 class="text-h1 text-balance lg:text-h1-lg">
+      Помни <Script class="text-h1-script lg:text-h1-script-lg">людей</Script>, а не только их имена
+    </h1>
+    <p class="mt-4.5 mb-7 text-lead text-pretty text-muted lg:m-0 lg:max-w-125 lg:text-lead-lg">
+      Личная CRM для тех, кто любит знакомиться. Кто этот человек, где вы встретились и о чём договорились — всё в одной
+      карточке.
+    </p>
+    <CtaButton class="mt-auto lg:mt-3" />
+  </div>
+
+  <Photo
+    src={heroPhoto}
+    alt="Крупно: рука с ручкой пишет в ежедневнике"
+    sizes="(min-width: 1024px) 900px, 510px"
+    priority
+    class="order-first mx-3.5 mt-3.5 h-85 lg:order-none lg:m-0 lg:h-150"
+  >
+    <span class="absolute inset-0 bg-linear-to-b/srgb from-tint-warm to-tint-cool" aria-hidden="true"></span>
+    <p class="absolute top-3.5 left-3.5 rounded-tag bg-paper px-2.5 py-1.5 text-logo lg:hidden">личная crm</p>
+  </Photo>
+</section>

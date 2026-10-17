@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@layer base {
+  body {
+    /* The mockup relies on the browser's default line height for unstyled text */
+    line-height: normal;
+    color: var(--color-ink);
+    background-color: var(--color-paper);
+    background-image: radial-gradient(circle, var(--color-dot) 1px, transparent 1.3px);
+    background-size: var(--grid-step) var(--grid-step);
+
+    @variant lg {
+      background-size: var(--grid-step-lg) var(--grid-step-lg);
+    }
+  }
+}
