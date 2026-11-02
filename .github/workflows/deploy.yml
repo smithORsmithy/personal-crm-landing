@@ -1,0 +1,68 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One deploy at a time; a new push waits for the running one
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      SITE_URL: https://linkbook.site/
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: pnpm/action-setup@v6.1.0
+        with:
+          version: 12.11.2
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Upload to server
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ vars.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          # The server key only allows uploads into the site folder
+          rsync -rlptz --delete --chmod=D755,F644 \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            dist/ "$DEPLOY_USER@$DEPLOY_HOST:"
+          rm -f ~/.ssh/deploy_key
+
+      # 200 alone is not enough: the placeholder page answers 200 too
+      - name: Check that the home page answers 200 with this build
+        run: |
+          expected=$(sha256sum dist/index.html | cut -d' ' -f1)
+          for attempt in 1 2 3 4 5; do
+            code=$(curl -s -o served.html -w '%{http_code}' "$SITE_URL" || true)
+            got=$(sha256sum served.html | cut -d' ' -f1)
+            echo "Attempt $attempt: $SITE_URL -> $code, page ${got:0:12}, build ${expected:0:12}"
+            [ "$code" = "200" ] && [ "$got" = "$expected" ] && exit 0
+            sleep 5
+          done
+          exit 1
