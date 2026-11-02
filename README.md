@@ -30,6 +30,8 @@ pnpm preview    # посмотреть готовую сборку
 
 Push в `main` → GitHub Actions собирает `dist/` → `rsync --delete` на сервер → проверка, что главная отвечает 200 и это именно свежая сборка. Ход выкатки — во вкладке Actions на GitHub. Запустить вручную: Actions → Deploy → Run workflow.
 
+Какая версия сейчас на сайте: https://linkbook.site/version.txt — там номер коммита последней выкатки.
+
 Стенда и отката нет: если сломалось — правим и пушим новую версию.
 
 Что лежит в настройках репозитория (Settings → Secrets and variables → Actions):

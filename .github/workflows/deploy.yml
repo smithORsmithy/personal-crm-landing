@@ -37,6 +37,10 @@ jobs:
       - name: Build
         run: pnpm build
 
+      # Which commit is live: https://linkbook.site/version.txt
+      - name: Mark the version
+        run: printf '%s\n' "$GITHUB_SHA" > dist/version.txt
+
       - name: Upload to server
         env:
           SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
@@ -61,8 +65,9 @@ jobs:
           for attempt in 1 2 3 4 5; do
             code=$(curl -s -o served.html -w '%{http_code}' "$SITE_URL" || true)
             got=$(sha256sum served.html | cut -d' ' -f1)
-            echo "Attempt $attempt: $SITE_URL -> $code, page ${got:0:12}, build ${expected:0:12}"
-            [ "$code" = "200" ] && [ "$got" = "$expected" ] && exit 0
+            live=$(curl -s "${SITE_URL}version.txt" || true)
+            echo "Attempt $attempt: $SITE_URL -> $code, page ${got:0:12}, build ${expected:0:12}, live version ${live:0:7}"
+            [ "$code" = "200" ] && [ "$got" = "$expected" ] && [ "$live" = "$GITHUB_SHA" ] && exit 0
             sleep 5
           done
           exit 1
